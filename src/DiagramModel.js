@@ -52,6 +52,11 @@ class DiagramModel {
     this._model.nodes.splice(index, 1);
   }
 
+  editNode(oldNode, title) {
+    let node = this._model.nodes[oldNode["index"]];
+    node.title = title;
+  }
+
   deleteLink(link) {
     const index = this._model.links.indexOf(link);
     this._model.links.splice(index, 1);

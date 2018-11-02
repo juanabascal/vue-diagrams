@@ -69,7 +69,7 @@
           :index="nodeIndex"
           v-for="(node, nodeIndex) in model._model.nodes"
           @onStartDrag="startDragItem"
-          @delete="model.deleteNode(node)"
+          @delete="deleteNode(node)"
         >
           <DiagramPort
             v-for="(port, portIndex) in node.ports"
@@ -87,6 +87,7 @@
       </g>
     </svg>
   </SvgPanZoom>
+    {{selectedItem}}
   </div>
 </template>
 <script>
@@ -188,6 +189,11 @@ export default {
 
     clearSelection() {
       this.selectedItem = {};
+    },
+
+    deleteNode(node) {
+      this.model.deleteNode(node);
+      this.clearSelection();
     },
 
     updateLinksPositions() {
@@ -336,12 +342,13 @@ export default {
     startDragPoint(pointInfo) {
       console.log("startDragPoint", pointInfo);
       this.draggedItem = pointInfo;
+      this.selectedItem = this.model._model.links[pointInfo["linkIndex"]];
     },
 
     startDragItem(item, x, y) {
       this.panEnabled = false;
       this.draggedItem = item;
-      this.selectedItem = item;
+      this.selectedItem = this.model._model.nodes[item["index"]];
       this.initialDragX = x;
       this.initialDragY = y;
     }
