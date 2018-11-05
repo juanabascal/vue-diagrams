@@ -14,14 +14,16 @@ class DiagramNode {
    * @param  {Integer} width  [description]
    * @param  {Integer} height [description]
    * @param  {Integer} id [description]
+   * @param others
    */
-  constructor(id, title, x, y, width, height) {
+  constructor(id, title, x, y, width, height, others = {}) {
     this.title = title;
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.ports = [];
+    this.others = others;
   }
 
   /**

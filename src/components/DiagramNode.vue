@@ -92,10 +92,7 @@ export default {
       default: true
     },
     selected: Boolean,
-    others: {
-      type: any,
-      default: {}
-    },
+    others: null
   },
 
   data() {
