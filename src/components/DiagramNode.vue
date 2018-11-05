@@ -91,7 +91,11 @@ export default {
       type: Boolean,
       default: true
     },
-    selected: Boolean
+    selected: Boolean,
+    others: {
+      type: any,
+      default: {}
+    },
   },
 
   data() {

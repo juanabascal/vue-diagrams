@@ -97,7 +97,7 @@ import DiagramNode from "./DiagramNode";
 import DiagramLink from "./DiagramLink";
 import DiagramPort from "./DiagramPort";
 
-import { EventBus } from '../Events.js';
+import { EventBus } from "../Events.js";
 
 var generateId = function() {
   return Math.trunc(Math.random() * 1000);
@@ -190,7 +190,7 @@ export default {
 
     clearSelection() {
       this.selectedItem = {};
-      EventBus.$emit('changeSelected', this.selectedItem);
+      EventBus.$emit("changeSelected", this.selectedItem);
     },
 
     deleteNode(node) {
@@ -346,7 +346,7 @@ export default {
       console.log("startDragPoint", pointInfo);
       this.draggedItem = pointInfo;
       this.selectedItem = this.model._model.links[pointInfo["linkIndex"]];
-      EventBus.$emit('changeSelected', this.selectedItem);
+      EventBus.$emit("changeSelected", this.selectedItem);
     },
 
     startDragItem(item, x, y) {
@@ -355,7 +355,7 @@ export default {
       this.selectedItem = this.model._model.nodes[item["index"]];
       this.initialDragX = x;
       this.initialDragY = y;
-      EventBus.$emit('changeSelected', this.selectedItem);
+      EventBus.$emit("changeSelected", this.selectedItem);
     }
   },
   computed: {
