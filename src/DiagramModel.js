@@ -37,6 +37,7 @@ class DiagramModel {
       height,
       others
     );
+    newNode.addNodePort(title);
     this._model.nodes.push(newNode);
     return newNode;
   }
@@ -63,8 +64,8 @@ class DiagramModel {
 
   editNode(node, title) {
     let nodeIndex = this._model.nodes.indexOf(node);
-    node = this._model.nodes[nodeIndex];
-    node.title = title;
+    let newNode = this._model.nodes[nodeIndex];
+    newNode.title = title;
   }
 
   deleteLink(link) {
