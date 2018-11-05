@@ -61,8 +61,9 @@ class DiagramModel {
     this._model.nodes.splice(index, 1);
   }
 
-  editNode(oldNode, title) {
-    let node = this._model.nodes[oldNode["index"]];
+  editNode(node, title) {
+    let nodeIndex = this._model.nodes.indexOf(node);
+    node = this._model.nodes[nodeIndex];
     node.title = title;
   }
 
