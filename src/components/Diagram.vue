@@ -8,9 +8,9 @@
       :panEnabled="panEnabled"
       :controlIconsEnabled="true"
       :fit="false"
+      :minZoom=".1"
       :center="true"
       viewportSelector="#svgroot2"
-      :preventMouseEventsDefault="false"
       :beforePan="beforePan">
     <svg
       id="svgroot2"
