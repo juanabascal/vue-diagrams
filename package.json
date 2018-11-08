@@ -1,7 +1,7 @@
 {
-  "name": "vue-diagrams",
+  "name": "vue-diagrams-config-editor",
   "description": "Diagram component for vue.js, inspired by react-diagrams",
-  "version": "0.0.1-development",
+  "version": "0.0.4-development",
   "license": "MIT",
   "main": "dist/vue-diagrams.common.js",
   "module": "dist/vue-diagrams.esm.js",
@@ -126,6 +126,7 @@
   },
   "dependencies": {
     "draggable-vue-directive": "^1.1.0",
+    "storybook": "^1.0.0",
     "svg-pan-zoom": "^3.5.3",
     "vue-svg-pan-zoom": "^0.1.0"
   }

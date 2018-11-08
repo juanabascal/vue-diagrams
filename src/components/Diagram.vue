@@ -69,15 +69,29 @@
           :index="nodeIndex"
           v-for="(node, nodeIndex) in model._model.nodes"
           @onStartDrag="startDragItem"
-          @delete="model.deleteNode(node)"
+          @delete="deleteNode(node)"
         >
           <DiagramPort
-            v-for="(port, portIndex) in node.ports"
+            v-for="(port, portIndex) in node.directedPorts"
             :ref="'port-' + port.id"
             :id="port.id"
             :nodeIndex="nodeIndex"
             :y="portIndex * 20"
             :nodeWidth="node.width"
+            :nodeHeight="node.height"
+            :type="port.type"
+            :name="port.name"
+            @onStartDragNewLink="startDragNewLink"
+            @mouseUpPort="mouseUpPort"
+          />
+          <DiagramPort
+            v-for="(port, portIndex) in node.undirectedPorts"
+            :ref="'port-' + port.id"
+            :id="port.id"
+            :nodeIndex="nodeIndex"
+            :y="(node.directedPorts.length-1)*20 + portIndex * 10"
+            :nodeWidth="node.width"
+            :nodeHeight="node.height"
             :type="port.type"
             :name="port.name"
             @onStartDragNewLink="startDragNewLink"
@@ -96,6 +110,8 @@ import DiagramModel from "./../DiagramModel";
 import DiagramNode from "./DiagramNode";
 import DiagramLink from "./DiagramLink";
 import DiagramPort from "./DiagramPort";
+
+import { EventBus } from "../Events.js";
 
 var generateId = function() {
   return Math.trunc(Math.random() * 1000);
@@ -188,6 +204,13 @@ export default {
 
     clearSelection() {
       this.selectedItem = {};
+      EventBus.$emit("changeSelected", this.selectedItem);
+    },
+
+    deleteNode(node) {
+      console.log(node);
+      this.model.deleteNode(node);
+      this.clearSelection();
     },
 
     updateLinksPositions() {
@@ -223,10 +246,19 @@ export default {
         var y;
         if (port.type === "in") {
           x = node.x + 10;
-          y = node.y + port.y + 64;
-        } else {
+          y = node.y + port.y + 44;
+        } else if (port.type === "node") {
+          x = node.x + node.width / 2;
+          y = node.y + 20;
+        } else if (port.type === "out") {
           x = node.x + node.width + 10;
-          y = node.y + port.y + 64;
+          y = node.y + port.y + 44;
+        } else if (port.type === "left") {
+          x = node.x + 10;
+          y = node.y + port.y + 65;
+        } else if (port.type === "right") {
+          x = node.x + node.width + 10;
+          y = node.y + port.y + 55;
         }
 
         return { x, y };
@@ -286,7 +318,11 @@ export default {
         var pointIndex = this.draggedItem.pointIndex;
         var linkIndex = this.draggedItem.linkIndex;
 
-        if (this.$refs["port-" + portId][0].type === "in") {
+        if (
+          this.$refs["port-" + portId][0].type === "in" ||
+          this.$refs["port-" + portId][0].type === "left" ||
+          this.$refs["port-" + portId][0].type === "right"
+        ) {
           var l = links[linkIndex].points.length;
           links[linkIndex].points.splice(
             pointIndex,
@@ -305,26 +341,81 @@ export default {
         var port1 = this.$refs["port-" + port1Id][0];
         var port2 = this.$refs["port-" + port2Id][0];
 
-        if (port1.type === "in" && port2.type === "out") {
-          links.push({
-            id: generateId(),
-            from: port2.id,
-            to: port1.id,
-            positionFrom: {},
-            positionTo: {},
-            points: []
-          });
-        } else if (port2.type === "in" && port1.type === "out") {
-          links.push({
-            id: generateId(),
-            from: port1.id,
-            to: port2.id,
-            positionFrom: {},
-            positionTo: {},
-            points: []
-          });
+        if (port1.type == "node" || port2.type == "node") {
+          if (port1.type == "node" && port2.type == "node") {
+            links.push({
+              id: generateId(),
+              from: port1.id,
+              to: port2.id,
+              positionFrom: {},
+              positionTo: {},
+              points: []
+            });
+          } else {
+            console.warn("You must link one out port and one in port");
+          }
         } else {
-          console.warn("You must link one out port and one in port");
+          if (port1.type == "left" || port1.type == "right") {
+            if (port2.type == "out") {
+              links.push({
+                id: generateId(),
+                from: port2.id,
+                to: port1.id,
+                positionFrom: {},
+                positionTo: {},
+                points: []
+              });
+            } else {
+              links.push({
+                id: generateId(),
+                from: port1.id,
+                to: port2.id,
+                positionFrom: {},
+                positionTo: {},
+                points: []
+              });
+            }
+          } else if (port2.type == "left" || port2.type == "right") {
+            if (port1.type == "in") {
+              links.push({
+                id: generateId(),
+                from: port2.id,
+                to: port1.id,
+                positionFrom: {},
+                positionTo: {},
+                points: []
+              });
+            } else {
+              links.push({
+                id: generateId(),
+                from: port1.id,
+                to: port2.id,
+                positionFrom: {},
+                positionTo: {},
+                points: []
+              });
+            }
+          } else if (port1.type === "in" && port2.type === "out") {
+            links.push({
+              id: generateId(),
+              from: port2.id,
+              to: port1.id,
+              positionFrom: {},
+              positionTo: {},
+              points: []
+            });
+          } else if (port2.type === "in" && port1.type === "out") {
+            links.push({
+              id: generateId(),
+              from: port1.id,
+              to: port2.id,
+              positionFrom: {},
+              positionTo: {},
+              points: []
+            });
+          } else {
+            console.warn("You must link one out port and one in port");
+          }
         }
 
         this.model._model.links = links;
@@ -336,14 +427,17 @@ export default {
     startDragPoint(pointInfo) {
       console.log("startDragPoint", pointInfo);
       this.draggedItem = pointInfo;
+      this.selectedItem = this.model._model.links[pointInfo["linkIndex"]];
+      EventBus.$emit("changeSelected", this.selectedItem);
     },
 
     startDragItem(item, x, y) {
       this.panEnabled = false;
       this.draggedItem = item;
-      this.selectedItem = item;
+      this.selectedItem = this.model._model.nodes[item["index"]];
       this.initialDragX = x;
       this.initialDragY = y;
+      EventBus.$emit("changeSelected", this.selectedItem);
     }
   },
   computed: {

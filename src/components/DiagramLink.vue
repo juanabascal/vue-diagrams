@@ -107,7 +107,7 @@ export default {
     },
     mouseDown(pos) {},
     mouseDownSegment(pos, segmentIndex) {
-      this.createPoint(pos.x, pos.y, segmentIndex);
+      //this.createPoint(pos.x, pos.y, segmentIndex);
       this.mouseDownPoint(pos, segmentIndex);
     },
     createPoint(x, y, pointIndex) {

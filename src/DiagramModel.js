@@ -24,10 +24,20 @@ class DiagramModel {
    * @param {Integer} y      Y Coordinate
    * @param {Integer} width  Width
    * @param {Integer} height Height
+   * @param {Any} others
    * @return {Node} The node created
    */
-  addNode(title, x, y, width, height) {
-    const newNode = new DiagramNode(generateId(), title, x, y, width, height);
+  addNode(title, x, y, width, height, others) {
+    const newNode = new DiagramNode(
+      generateId(),
+      title,
+      x,
+      y,
+      width,
+      height,
+      others
+    );
+    newNode.addNodePort(title);
     this._model.nodes.push(newNode);
     return newNode;
   }
@@ -50,6 +60,12 @@ class DiagramModel {
       }
     }
     this._model.nodes.splice(index, 1);
+  }
+
+  editNode(node, title) {
+    let nodeIndex = this._model.nodes.indexOf(node);
+    let newNode = this._model.nodes[nodeIndex];
+    newNode.title = title;
   }
 
   deleteLink(link) {
