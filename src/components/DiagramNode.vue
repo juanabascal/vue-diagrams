@@ -23,7 +23,7 @@
         class="node-dark-background"
         >
       </rect>
-      <text :x="10" :y="46" font-size="14" font-weight="bold" fill="#000000">{{title}}</text>
+      <text :x="4+width/2" :y="46" font-size="14" text-anchor="middle" font-weight="bold" fill="#000000">{{title}}</text>
       <g v-if="deletable" @click="deleteNode">
         <rect
           :x="width - 12"
