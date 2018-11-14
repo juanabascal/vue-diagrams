@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/vue";
 import Diagram from "../src/components/Diagram";
-import { EventBus } from '../src/Events.js';
+import { EventBus } from "../src/Events.js";
 
 // Add more stories here to live develop your components
 storiesOf("Diagram", module).add("Grid snap", () => ({
@@ -15,7 +15,9 @@ storiesOf("Diagram", module).add("Grid snap", () => ({
     node2.addOutPort("testOut2");
     node2.color = "#00cc66";
 
-    const node3 = diagramModel.addNode("test3", 10, 100, 72, 100, {"class": "philosopher"});
+    const node3 = diagramModel.addNode("test3", 10, 100, 72, 100, {
+      class: "philosopher"
+    });
     const node3OutPort = node3.addOutPort("testOut3");
     node3.color = "#cc6600";
     node3.deletable = false;
@@ -31,7 +33,7 @@ storiesOf("Diagram", module).add("Grid snap", () => ({
     };
   },
   mounted() {
-    EventBus.$on('changeSelected', data => {
+    EventBus.$on("changeSelected", data => {
       this.selectedItem = data;
     });
     let width = document.getElementById("wrapper").offsetWidth;
