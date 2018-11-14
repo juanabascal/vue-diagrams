@@ -1,9 +1,5 @@
 import DiagramNode from "./DiagramNode";
 
-var generateId = function() {
-  return Math.trunc(Math.random() * 1000);
-};
-
 /**
  * @class DiagramModel
  */
@@ -29,7 +25,7 @@ class DiagramModel {
    */
   addNode(title, x, y, width, height, others) {
     const newNode = new DiagramNode(
-      generateId(),
+      this._model.nodes.length,
       title,
       x,
       y,
@@ -81,7 +77,7 @@ class DiagramModel {
    */
   addLink(from, to, points = []) {
     this._model.links.push({
-      id: generateId(),
+      id: this._model.links.length,
       from: from,
       to: to,
       positionFrom: {},

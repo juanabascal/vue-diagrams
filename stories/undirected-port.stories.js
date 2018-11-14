@@ -6,7 +6,8 @@ storiesOf("Diagram", module).add("undirected-port", () => ({
   data() {
     const diagramModel = new Diagram.Model();
     const node1 = diagramModel.addNode("test", 300, 200, 150, 150);
-    node1.addBothPort("testBoth");
+    console.log(node1);
+    node1.addBothPort(node1.id, "testBoth");
     node1.addInPort("testIn");
     node1.addInPort("testIn2");
     node1.addOutPort("testOut");

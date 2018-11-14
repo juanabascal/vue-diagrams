@@ -17,6 +17,7 @@ class DiagramNode {
    * @param others
    */
   constructor(id, title, x, y, width, height, others = {}) {
+    this.id = id;
     this.title = title;
     this.x = x;
     this.y = y;
@@ -35,7 +36,7 @@ class DiagramNode {
    */
   addInPort(name) {
     let newPort = {
-      id: generateId(),
+      id: String(this.id) + "-" + String(this.ports.length),
       type: "in",
       name
     };
@@ -53,7 +54,7 @@ class DiagramNode {
    */
   addOutPort(name) {
     let newPort = {
-      id: generateId(),
+      id: String(this.id) + "-" + String(this.ports.length),
       type: "out",
       name
     };
@@ -71,7 +72,7 @@ class DiagramNode {
    */
   addBothPort(name) {
     let newPort = {
-      id: generateId(),
+      id: String(this.id) + "-" + String(this.ports.length),
       type: "left",
       name
     };
@@ -80,7 +81,7 @@ class DiagramNode {
     this.undirectedPorts.push(newPort);
 
     newPort = {
-      id: generateId(),
+      id: String(this.id) + "-" + String(this.ports.length),
       type: "right",
       name
     };
@@ -98,7 +99,7 @@ class DiagramNode {
    */
   addNodePort(name) {
     let newPort = {
-      id: generateId(),
+      id: String(this.id) + "-" + String(this.ports.length),
       type: "node",
       name
     };

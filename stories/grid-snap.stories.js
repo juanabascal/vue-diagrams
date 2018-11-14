@@ -26,17 +26,23 @@ storiesOf("Diagram", module).add("Grid snap", () => ({
     return {
       model: diagramModel,
       selectedItem: null,
+      width: 100,
+      height: 100
     };
   },
   mounted() {
     EventBus.$on('changeSelected', data => {
       this.selectedItem = data;
     });
+    let width = document.getElementById("wrapper").offsetWidth;
+    let height = document.getElementById("wrapper").offsetHeight;
+    this.width = width;
+    this.height = height;
   },
   methods: {
     edit: function() {
       this.model.editNode(this.selectedItem, "New");
     }
   },
-  template: `<div><diagram :model="model" gridSnap="16"></diagram>{{selectedItem}}</div>`
+  template: `<div id="wrapper" style="height: 750px"><diagram :width="width" :height="height" :model="model" gridSnap="16"></diagram></div>`
 }));

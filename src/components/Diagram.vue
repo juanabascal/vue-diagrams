@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100%">
    <SvgPanZoom
       :style="{ width: width + 'px', height: height + 'px', border:'1px solid black'}"
       xmlns="http://www.w3.org/2000/svg"
@@ -344,7 +344,7 @@ export default {
         if (port1.type == "node" || port2.type == "node") {
           if (port1.type == "node" && port2.type == "node") {
             links.push({
-              id: generateId(),
+              id: links.length,
               from: port1.id,
               to: port2.id,
               positionFrom: {},
@@ -358,7 +358,7 @@ export default {
           if (port1.type == "left" || port1.type == "right") {
             if (port2.type == "out") {
               links.push({
-                id: generateId(),
+                id: links.length,
                 from: port2.id,
                 to: port1.id,
                 positionFrom: {},
@@ -367,7 +367,7 @@ export default {
               });
             } else {
               links.push({
-                id: generateId(),
+                id: links.length,
                 from: port1.id,
                 to: port2.id,
                 positionFrom: {},
@@ -378,7 +378,7 @@ export default {
           } else if (port2.type == "left" || port2.type == "right") {
             if (port1.type == "in") {
               links.push({
-                id: generateId(),
+                id: links.length,
                 from: port2.id,
                 to: port1.id,
                 positionFrom: {},
@@ -387,7 +387,7 @@ export default {
               });
             } else {
               links.push({
-                id: generateId(),
+                id: links.length,
                 from: port1.id,
                 to: port2.id,
                 positionFrom: {},
@@ -397,7 +397,7 @@ export default {
             }
           } else if (port1.type === "in" && port2.type === "out") {
             links.push({
-              id: generateId(),
+              id: links.length,
               from: port2.id,
               to: port1.id,
               positionFrom: {},
@@ -406,7 +406,7 @@ export default {
             });
           } else if (port2.type === "in" && port1.type === "out") {
             links.push({
-              id: generateId(),
+              id: links.length,
               from: port1.id,
               to: port2.id,
               positionFrom: {},
