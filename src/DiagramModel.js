@@ -58,6 +58,11 @@ class DiagramModel {
     this._model.nodes.splice(index, 1);
   }
 
+  clearCanvas() {
+    this._model.nodes = [];
+    this._model.links = [];
+  }
+
   editNode(node, title) {
     let nodeIndex = this._model.nodes.indexOf(node);
     let newNode = this._model.nodes[nodeIndex];
