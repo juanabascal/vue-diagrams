@@ -15,6 +15,7 @@ class DiagramModel {
 
   /**
    * Adds a node to the diagram
+   * @param {Integer} id
    * @param {String} title  The title of the node
    * @param {Integer} x      X coordinate
    * @param {Integer} y      Y Coordinate
@@ -23,16 +24,8 @@ class DiagramModel {
    * @param {Any} others
    * @return {Node} The node created
    */
-  addNode(title, x, y, width, height, others) {
-    const newNode = new DiagramNode(
-      this._model.nodes.length,
-      title,
-      x,
-      y,
-      width,
-      height,
-      others
-    );
+  addNode(id, title, x, y, width, height, others) {
+    const newNode = new DiagramNode(id, title, x, y, width, height, others);
     newNode.addNodePort(title);
     this._model.nodes.push(newNode);
     return newNode;
